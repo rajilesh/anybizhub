@@ -58,15 +58,13 @@
   }
 
   document.querySelectorAll('.email-form').forEach(form => {
-    const result = form.querySelector('.email-result');
-    const status = form.querySelector('.email-status');
-    const copyButton = form.querySelector('.copy-email');
-    const manualCopy = form.querySelector('.manual-copy');
-    const copyText = form.querySelector('.email-copy-text');
+    const sendLink = form.querySelector('.send-email-link');
     const recipient = form.dataset.email;
-    let preparedMessage = '';
 
-    const prepare = () => {
+    sendLink.addEventListener('click', event => {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+
       const data = new FormData(form);
       const text = key => String(data.get(key) || '').trim();
       const topic = text('topic');
@@ -78,40 +76,10 @@
         `Topic: ${topic}`, '', text('message'), '',
         isDeletion
           ? 'I understand that identity verification may be required, and that account deletion does not cancel an app-store subscription.'
-          : 'Please help me with this enquiry.', '',
-        'Prepared on AnyBizHub. This email is sent only when I send it from my email application.'
+          : 'Please help me with this enquiry.'
       ].join('\n');
-      preparedMessage = `To: ${recipient}\nSubject: ${subject}\n\n${body}`;
-      copyText.value = preparedMessage;
-      return `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    };
-
-    form.addEventListener('submit', event => {
-      event.preventDefault();
-      if (!form.reportValidity()) return;
-      const mailto = prepare();
-      result.hidden = false;
-      status.textContent = 'Your email app should open with a message to hello@anybizhub.com. Review and send it there. If no email app opens, copy the message below.';
-      // This is a mailto navigation, never an HTTP form submission.
-      window.location.href = mailto;
-    });
-
-    copyButton.addEventListener('click', async () => {
-      if (!form.reportValidity()) return;
-      prepare();
-      if (navigator.clipboard && window.isSecureContext) {
-        try {
-          await navigator.clipboard.writeText(preparedMessage);
-          status.textContent = `Message copied. Paste it into a new email addressed to ${recipient}, review it, and send. The message is sent only when you choose Send in your email app.`;
-          return;
-        } catch (_) {
-          // Clipboard permissions can be denied. Offer manual selection instead.
-        }
-      }
-      manualCopy.hidden = false;
-      copyText.focus();
-      copyText.select();
-      status.textContent = `Copy the selected text into your email application, address it to ${recipient}, and send it there. The message is sent only when you choose Send in your email app.`;
+      sendLink.href = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      window.location.href = sendLink.href;
     });
   });
 })();
