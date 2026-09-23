@@ -73,7 +73,7 @@
       const isDeletion = topic === 'Account / data deletion';
       const subject = isDeletion ? 'My BNI account / data deletion request' : `AnyBizHub — ${topic}`;
       const body = [
-        'Hello Soance Innovations LLP,', '',
+        'Hello AnyBizHub,', '',
         `Name: ${text('name')}`, `Account / contact email: ${text('email')}`,
         `Topic: ${topic}`, '', text('message'), '',
         isDeletion
@@ -91,7 +91,7 @@
       if (!form.reportValidity()) return;
       const mailto = prepare();
       result.hidden = false;
-      status.textContent = 'Your email application should open with a draft. Review and send it there. No request has been submitted from this page. If it does not open, copy the message below.';
+      status.textContent = 'Your email app should open with a message to hello@anybizhub.com. Review and send it there. If no email app opens, copy the message below.';
       // This is a mailto navigation, never an HTTP form submission.
       window.location.href = mailto;
     });
@@ -102,7 +102,7 @@
       if (navigator.clipboard && window.isSecureContext) {
         try {
           await navigator.clipboard.writeText(preparedMessage);
-          status.textContent = `Message copied. Paste it into a new email addressed to ${recipient}, review it, and send. No request has been submitted from this website.`;
+          status.textContent = `Message copied. Paste it into a new email addressed to ${recipient}, review it, and send. The message is sent only when you choose Send in your email app.`;
           return;
         } catch (_) {
           // Clipboard permissions can be denied. Offer manual selection instead.
@@ -111,7 +111,7 @@
       manualCopy.hidden = false;
       copyText.focus();
       copyText.select();
-      status.textContent = `Copy the selected text into your email application, address it to ${recipient}, and send it there. No request has been submitted from this website.`;
+      status.textContent = `Copy the selected text into your email application, address it to ${recipient}, and send it there. The message is sent only when you choose Send in your email app.`;
     });
   });
 })();
