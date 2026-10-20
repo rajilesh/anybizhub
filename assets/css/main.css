@@ -15,3 +15,6 @@
 @media(max-width:860px){.stage-caption{font-size:9px;max-width:112px}}
 @media(max-width:650px){.stage-caption{font-size:9px;max-width:119px}}
 @media(max-width:365px){.stage-caption{font-size:8px;max-width:104px}}
+
+/* Product-specific privacy notices. */
+.product-privacy-nav{display:flex;flex-wrap:wrap;gap:12px 22px;margin-top:24px;font-size:15px}.product-privacy-nav a{color:var(--ink);text-underline-offset:4px}#cake-builder h3{font-size:20px;line-height:1.35;letter-spacing:-.02em;margin:30px 0 14px}#cake-builder .legal-article{overflow-wrap:anywhere}
